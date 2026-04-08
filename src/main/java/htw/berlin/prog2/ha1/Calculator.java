@@ -14,6 +14,8 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    private int clearKeyCounter = 0;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -43,6 +45,14 @@ public class Calculator {
     public double displayLatestValue(){
         return latestValue;
     }
+
+    /** Funktion zur Ermittlung des aktuell Gespeicherten Operators.
+     * @return letzter gespeicherter Operator.
+     */
+    public String displayLatestOperation(){
+        return latestOperation;
+    }
+
     /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
      * Einmaliges Drücken der Taste löscht die zuvor eingegebenen Ziffern auf dem Bildschirm
@@ -52,9 +62,14 @@ public class Calculator {
      * im Ursprungszustand ist.
      */
     public void pressClearKey() {
-        screen = "0";
-        latestOperation = "";
-        latestValue = 0.0;
+        if(clearKeyCounter == 0) {
+            screen = "0";
+            clearKeyCounter++;
+        } else {
+            latestOperation = "";
+            latestValue = 0.0;
+            clearKeyCounter = 0;
+        }
     }
 
     /**

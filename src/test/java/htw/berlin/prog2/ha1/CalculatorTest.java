@@ -129,16 +129,19 @@ class CalculatorTest {
         Calculator calc = new Calculator();
 
         calc.pressDigitKey(4);
+        calc.pressBinaryOperationKey("+");
         calc.pressClearKey();
 
         // Test 1: Erster Druck von C/CE löscht den aktuellen Inhalt des Bildschirms und setzt ihn auf 0.
         assertEquals("0", calc.readScreen(), "Screen should reset to 0 after first clear");
         assertEquals(4.0, calc.displayLatestValue(), "Stored value should still be 4 after first clear");
+        assertEquals("+", calc.displayLatestOperation(), "Stored operator should still exist after first clear");
 
         calc.pressClearKey();
 
         // Test 2: Zweiter Druck von C/CE setzt die gespeicherten Werte ebenfalls auf 0.
         assertEquals(0.0, calc.displayLatestValue(), "Stored value should be wiped after second clear");
+        assertEquals("", calc.displayLatestOperation(), "Stored operator should be wiped after second clear");
     }
 }
 

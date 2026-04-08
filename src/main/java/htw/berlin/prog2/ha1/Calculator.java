@@ -16,6 +16,8 @@ public class Calculator {
 
     private int clearKeyCounter = 0;
 
+    private boolean isNewInput = true;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -33,9 +35,9 @@ public class Calculator {
     public void pressDigitKey(int digit) {
         if(digit > 9 || digit < 0) throw new IllegalArgumentException();
 
-        if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
-
-        screen = screen + digit;
+        if(screen.equals("0") || isNewInput) screen = "";
+        isNewInput = false;
+        screen += digit;
     }
 
     /**
@@ -77,13 +79,21 @@ public class Calculator {
      * Addition, Substraktion, Division, oder Multiplikation, welche zwei Operanden benötigen.
      * Beim ersten Drücken der Taste wird der Bildschirminhalt nicht verändert, sondern nur der
      * Rechner in den passenden Operationsmodus versetzt.
-     * Beim zweiten Drücken nach Eingabe einer weiteren Zahl wird direkt des aktuelle Zwischenergebnis
+     * Beim zweiten Drücken nach Eingabe einer weiteren Zahl wird direkt das aktuelle Zwischenergebnis
      * auf dem Bildschirm angezeigt. Falls hierbei eine Division durch Null auftritt, wird "Error" angezeigt.
-     * @param operation "+" für Addition, "-" für Substraktion, "x" für Multiplikation, "/" für Division
+     * Steht eine Rechnung aus (z.B. 5 + 5 + ...), wird auf dem Bildschirm bereits das Ergebnis der vorherigen Operation dargestellt.
+     * isNewInput prüft, ob es sich um ein Ergebnis handelt oder der eine weitere Zahl für die Rechnung eingeben wird.
+     * Wenn isNewInput = false ist, handelt es sich um ein Ergebnis oder Initialwert.
+     * Wenn isNewInput = true ist, befindet sich das Programm noch in der Rechnung und es können weitere Zahlen hinzugefügt werden.
+     * @param operation "+" für Addition, "-" für Subtraktion, "x" für Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation)  {
+        if (!latestOperation.isEmpty()){
+            pressEqualsKey();
+        }
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+        isNewInput = true;
     }
 
     /**
@@ -151,5 +161,7 @@ public class Calculator {
         if(screen.equals("Infinity")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
+
+        isNewInput = true;
     }
 }

@@ -105,5 +105,40 @@ class CalculatorTest {
         assertEquals(expected, actual, "result should be 1.0!");
         
     }
+
+    @Test
+    @DisplayName("should display the result when clicking a second operator after the second digit")
+    void testAddingNumbersWithSameValue(){
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("+");
+
+        String expected = "10";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual, "result should be 10");
+
+    }
+
+    @Test
+    @DisplayName("should clear the screen first, then pressing it the second time should delete all saved values")
+    void testClearButton() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(4);
+        calc.pressClearKey();
+
+        // Test 1: Erster Druck von C/CE löscht den aktuellen Inhalt des Bildschirms und setzt ihn auf 0.
+        assertEquals("0", calc.readScreen(), "Screen should reset to 0 after first clear");
+        assertEquals(4.0, calc.displayLatestValue(), "Stored value should still be 4 after first clear");
+
+        calc.pressClearKey();
+
+        // Test 2: Zweiter Druck von C/CE setzt die gespeicherten Werte ebenfalls auf 0.
+        assertEquals(0.0, calc.displayLatestValue(), "Stored value should be wiped after second clear");
+    }
 }
 

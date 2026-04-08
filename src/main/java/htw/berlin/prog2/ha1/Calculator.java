@@ -37,6 +37,13 @@ public class Calculator {
     }
 
     /**
+     * Funktion zur Ermittlung der aktuell gespeicherten Value.
+     * @return der aktuell gespeicherte Wert
+     */
+    public double displayLatestValue(){
+        return latestValue;
+    }
+    /**
      * Empfängt den Befehl der C- bzw. CE-Taste (Clear bzw. Clear Entry).
      * Einmaliges Drücken der Taste löscht die zuvor eingegebenen Ziffern auf dem Bildschirm
      * so dass "0" angezeigt wird, jedoch ohne zuvor zwischengespeicherte Werte zu löschen.
